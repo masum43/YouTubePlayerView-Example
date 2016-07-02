@@ -1,62 +1,34 @@
 package com.stacktips.youtube;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
-import com.google.android.youtube.player.YouTubeBaseActivity;
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerView;
-import static com.google.android.youtube.player.YouTubePlayer.*;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
-public class MainActivity extends YouTubeBaseActivity implements OnInitializedListener {
-    public static final String API_KEY = "AIzaSyBx7v0YOb140fDO7EbfMx4l87raxezDWFw";
-
-    //https://www.youtube.com/watch?v=<VIDEO_ID>
-    public static final String VIDEO_ID = "-m3V8w_7vhk";
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // attaching layout xml
         setContentView(R.layout.activity_main);
 
-        // Initializing YouTube player view
-        YouTubePlayerView youTubePlayerView = (YouTubePlayerView) findViewById(R.id.youtube_player_view);
-        youTubePlayerView.initialize(API_KEY, this);
+        findViewById(R.id.basic_player_example).setOnClickListener(this);
+        findViewById(R.id.minimal_player_example).setOnClickListener(this);
+        findViewById(R.id.custom_player_control_example).setOnClickListener(this);
     }
 
     @Override
-    public void onInitializationFailure(Provider provider, YouTubeInitializationResult result) {
-        Toast.makeText(this, "Failed to initialize.", Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onInitializationSuccess(Provider provider, YouTubePlayer player, boolean wasRestored) {
-        if(null== player) return;
-
-        // Start buffering
-        if (!wasRestored) {
-            player.cueVideo(VIDEO_ID);
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.basic_player_example:
+                startActivity(new Intent(this, BasicPlayerActivity.class));
+                break;
+            case R.id.minimal_player_example:
+                startActivity(new Intent(this, MinimalPlayerActivity.class));
+                break;
+            case R.id.custom_player_control_example:
+                startActivity(new Intent(this, CustomPlayerControlActivity.class));
+                break;
         }
-
-        // Add listeners to YouTubePlayer instance
-        player.setPlayerStateChangeListener(new PlayerStateChangeListener() {
-            @Override public void onAdStarted() { }
-            @Override public void onError(ErrorReason arg0) { }
-            @Override public void onLoaded(String arg0) { }
-            @Override public void onLoading() { }
-            @Override public void onVideoEnded() { }
-            @Override public void onVideoStarted() { }
-        });
-
-
-        player.setPlaybackEventListener(new PlaybackEventListener() {
-            @Override public void onBuffering(boolean arg0) { }
-            @Override public void onPaused() { }
-            @Override public void onPlaying() { }
-            @Override public void onSeekTo(int arg0) { }
-            @Override public void onStopped() { }
-        });
     }
-
 }
