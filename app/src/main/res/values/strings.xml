@@ -4,6 +4,7 @@
     <string name="basic_player">Basic YouTube Player</string>
     <string name="minimal_player">Minimal YouTube Player</string>
     <string name="custom_player_control">Custom YouTube Player Control</string>
+    <string name="player_fragment">YouTube Player Fragment Example</string>
 
 
     <string name="play">Play</string>
