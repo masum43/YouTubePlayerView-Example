@@ -1,27 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.stacktips.youtube.MainActivity">
+    android:background="#000000"
+    tools:context="com.stacktips.youtube.CustomPlayerControlActivity">
 
     <com.google.android.youtube.player.YouTubePlayerView
         android:id="@+id/youtube_player_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#ebeff2" />
+        android:layout_height="match_parent"
+        android:layout_above="@+id/video_control"
+        android:background="#000000" />
 
 
     <LinearLayout
         android:id="@+id/video_control"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:background="#444"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:visibility="visible"
         android:weightSum="10">
 
         <ImageButton
@@ -40,7 +42,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:src="@drawable/ic_play" />
+            android:background="@null"
+            android:src="@drawable/ic_pause" />
 
         <SeekBar
             android:id="@+id/video_seekbar"
@@ -59,15 +62,15 @@
             android:layout_weight="2"
             android:text="--:--"
             android:textColor="@android:color/white" />
-
+        
         <ImageView
             android:id="@+id/full_screen_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:src="@drawable/ic_baseline_fullscreen_24" />
-
+            android:src="@drawable/ic_baseline_fullscreen_exit_24" />
+        
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

@@ -21,7 +21,9 @@
 
         <activity android:name=".BasicPlayerActivity" />
         <activity android:name=".MinimalPlayerActivity" />
-        <activity android:name=".CustomPlayerControlActivity" />
+        <activity
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:name=".CustomPlayerControlActivity" />
         <activity android:name=".YouTubePlayerFragmentActivity" />
     </application>
 

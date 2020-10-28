@@ -1,8 +1,12 @@
 package com.stacktips.youtube;
 
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +38,8 @@ public class CustomPlayerControlActivity extends YouTubeBaseActivity implements 
     private Handler mHandler = null;
     private SeekBar mSeekBar;
 
+    private ImageView fullScreenBtn, pauseBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +53,21 @@ public class CustomPlayerControlActivity extends YouTubeBaseActivity implements 
         //Add play button to explicitly play video in YouTubePlayerView
         mPlayButtonLayout = findViewById(R.id.video_control);
         findViewById(R.id.play_video).setOnClickListener(this);
-        findViewById(R.id.pause_video).setOnClickListener(this);
+        findViewById(R.id.play_pause_video).setOnClickListener(this);
+
+        fullScreenBtn = findViewById(R.id.full_screen_btn);
+        pauseBtn = findViewById(R.id.play_pause_video);
+
+        fullScreenBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                }
+                else setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+            }
+        });
 
         mPlayTimeTextView = (TextView) findViewById(R.id.play_time);
         mSeekBar = (SeekBar) findViewById(R.id.video_seekbar);
@@ -156,13 +176,20 @@ public class CustomPlayerControlActivity extends YouTubeBaseActivity implements 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.play_video:
-                if (null != mPlayer && !mPlayer.isPlaying())
-                    mPlayer.play();
-                break;
-            case R.id.pause_video:
-                if (null != mPlayer && mPlayer.isPlaying())
+//            case R.id.play_video:
+//                if (null != mPlayer && !mPlayer.isPlaying())
+//                    mPlayer.play();
+//                break;
+            case R.id.play_pause_video:
+                if (null != mPlayer && mPlayer.isPlaying()) {
                     mPlayer.pause();
+                    pauseBtn.setBackgroundResource(R.drawable.ic_play);
+
+                }
+                else if (null != mPlayer && !mPlayer.isPlaying()) {
+                    mPlayer.play();
+                    pauseBtn.setBackgroundResource(R.drawable.ic_pause);
+                }
                 break;
         }
     }
@@ -189,5 +216,17 @@ public class CustomPlayerControlActivity extends YouTubeBaseActivity implements 
             mHandler.postDelayed(this, 100);
         }
     };
+
+
+        @Override
+    public void onBackPressed() {
+        //super.onBackPressed(); by removing this, back press button will not return to the other activity, but the below code will be executed...
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            super.onBackPressed();
+
+        }
+    }
 
 }
